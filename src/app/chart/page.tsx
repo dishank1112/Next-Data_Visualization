@@ -117,23 +117,12 @@ export default function ChartPage() {
     });
   });
 
-  // sort month keys chronologically
   const labels = Object.keys(capacityMap)
     .sort((a, b) => new Date(a + "-01").getTime() - new Date(b + "-01").getTime());
   const values = labels.map((m) => capacityMap[m] || 0);
 
   console.log("Aggregated months:", labels.length, "example:", labels.slice(0, 6));
   console.log("Aggregated values (first 10):", values.slice(0, 10));
-
-  // if nothing found, show message
-  if (labels.length === 0 || values.every((v) => v === 0)) {
-    return (
-      <div className="p-6">
-        <h1 className="text-xl font-bold mb-4">GPU Capacity vs Time</h1>
-        <p>No capacity data found. Check console for CSV headers and sample rows.</p>
-      </div>
-    );
-  }
 
   const chartData = {
     labels,
