@@ -10,7 +10,7 @@ type CsvRow = Record<string, string>;
 
 interface CsvTableProps {
   data: CsvRow[];
-  onFilter?: (rows: CsvRow[]) => void; 
+  onFilter?: (rows: CsvRow[]) => void;
 }
 
 const headerMapping: Record<string, string> = {
@@ -45,6 +45,7 @@ export default function CsvTable({ data, onFilter }: CsvTableProps) {
       return passesFilters && passesSearch;
     });
   }, [data, filters, search]);
+
   useEffect(() => {
     setPage(0);
     if (onFilter) onFilter(filteredData);
@@ -58,33 +59,50 @@ export default function CsvTable({ data, onFilter }: CsvTableProps) {
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
 
   return (
-    <div className="p-6 space-y-6">
-      <SearchBox
-        value={search}
-        onChange={(val) => {
-          setSearch(val);
-        }}
-      />
-      <FiltersPanel
-        data={data}
-        filters={filters}
-        setFilters={(f) => {
-          setFilters(f);
-        }}
-      />
+    <div className="p-6 bg-gray-900/90 rounded-2xl shadow-[0_0_25px_rgba(118,185,0,0.15)] border border-gray-800 text-gray-200 transition hover:shadow-[0_0_40px_rgba(118,185,0,0.25)]">
+      {}
+      <h2 className="text-xl font-bold text-[#76b900] mb-6 tracking-wide">
+        Data Table
+      </h2>
 
-      <DataTable data={paginatedData} allData={data} headerMapping={headerMapping} />
+      {}
+        <SearchBox
+          value={search}
+          onChange={(val) => setSearch(val)}
+        />
+    
 
-      <PaginationControls
-        page={page}
-        setPage={setPage}
-        rowsPerPage={rowsPerPage}
-        setRowsPerPage={(r) => {
-          setRowsPerPage(r);
-          setPage(0);
-        }}
-        totalPages={totalPages}
-      />
+      {/* Filters */}
+      <div className="mb-4">
+        <FiltersPanel
+          data={data}
+          filters={filters}
+          setFilters={(f) => setFilters(f)}
+        />
+      </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto my-6 rounded-xl border border-gray-700 shadow-inner">
+        <DataTable
+          data={paginatedData}
+          allData={data}
+          // headerMapping={headerMapping}
+        />
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-end mt-6">
+        <PaginationControls
+          page={page}
+          setPage={setPage}
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={(r) => {
+            setRowsPerPage(r);
+            setPage(0);
+          }}
+          totalPages={totalPages}
+        />
+      </div>
     </div>
   );
 }

@@ -53,7 +53,8 @@ function guessCapacityKey(sampleRow: CsvRow | undefined): string | null {
 export default function Chart({ rows }: { rows?: CsvRow[] }) {
   const effectiveRows = rows || [];
 
-  if (effectiveRows.length === 0) return <p>Loading chart...</p>;
+  if (effectiveRows.length === 0)
+    return <p className="text-gray-400 italic">Loading chart...</p>;
 
   const sample = effectiveRows[0];
   const startKey = Object.keys(sample).find((k) => /start/i.test(k)) || "start_date";
@@ -61,12 +62,12 @@ export default function Chart({ rows }: { rows?: CsvRow[] }) {
   const capKey = guessCapacityKey(sample) || "quantity_gpus";
 
   const capacityMap: Record<string, number> = {};
-  effectiveRows.forEach((row, idx) => {
+  effectiveRows.forEach((row) => {
     const start = new Date(row[startKey]);
     const end = new Date(row[endKey]);
     if (isNaN(start.getTime()) || isNaN(end.getTime()) || end < start) return;
 
-    const cap = parseInt(String(row[capKey]).replace(/[^0-9\-\.]/g, ""), 10) || 0;
+    const cap = parseInt(String(row[capKey]).replace(/[^0-9\\-\\.]/g, ""), 10) || 0;
     monthsBetween(start, end).forEach((m) => {
       capacityMap[m] = (capacityMap[m] || 0) + cap;
     });
@@ -83,32 +84,41 @@ export default function Chart({ rows }: { rows?: CsvRow[] }) {
       {
         label: "GPUs",
         data: values,
-        borderColor: "blue",
-        backgroundColor: "rgba(0,0,255,0.2)",
+        borderColor: "#76B900", 
+        backgroundColor: "rgba(118,185,0,0.15)",
+        pointBackgroundColor: "#76B900",
         fill: true,
+        tension: 0.3,
       },
     ],
   };
 
-const options = {
-  responsive: true,
-  maintainAspectRatio: false, 
-  scales: { y: { beginAtZero: true } },
-  plugins: {
-    legend: { position: "top" as const },
-    title: { display: true, text: "GPUS  W.R.T  Time" },
-  },
-};
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { ticks: { color: "#aaa" }, grid: { color: "#333" } },
+      y: { beginAtZero: true, ticks: { color: "#aaa" }, grid: { color: "#333" } },
+    },
+    plugins: {
+      legend: { labels: { color: "#76B900" }, position: "top" as const },
+      title: {
+        display: true,
+        text: "GPU Capacity Over Time",
+        color: "#76B900",
+        font: { size: 18, weight: "bold" },
+      },
+    },
+  };
 
-return (
-  <div className="p-6">
-    <h1 className="text-xl font-bold mb-4">GPU Capacity vs Time</h1>
-
-    {}
-    <div className="w-full max-w-xl mx-auto h-110">
-      {}
-      <Line data={chartData} options={options} />
+  return (
+    <div className="p-6 bg-gray-900/90 rounded-2xl shadow-[0_0_25px_rgba(118,185,0,0.15)] border border-gray-800 hover:shadow-[0_0_40px_rgba(118,185,0,0.25)] transition">
+      <h2 className="text-xl font-semibold text-[#76b900] mb-6 tracking-wide">
+        GPUs w.r.t Time
+      </h2>
+      <div className="w-full max-w-5xl mx-auto h-96">
+        <Line data={chartData} options={options} />
+      </div>
     </div>
-  </div>
-);
+  );
 }
