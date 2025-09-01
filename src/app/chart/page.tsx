@@ -136,7 +136,6 @@ export default function ChartPage() {
       },
     ],
   };
-
   const options = {
     responsive: true,
     scales: {

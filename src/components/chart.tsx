@@ -116,7 +116,7 @@ export default function Chart({ rows }: { rows?: CsvRow[] }) {
       <h2 className="text-xl font-semibold text-[#76b900] mb-6 tracking-wide">
         GPUs w.r.t Time
       </h2>
-      <div className="w-full max-w-5xl mx-auto h-96">
+      <div className="w-full  h-96">
         <Line data={chartData} options={options} />
       </div>
     </div>
