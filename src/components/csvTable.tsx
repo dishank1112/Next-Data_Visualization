@@ -61,7 +61,7 @@ export default function CsvTable({ data, unitMode = "gpu" }: CsvTableProps) {
     [paginatedData, displayKey]
   );
 
-  // ✅ Process all rows (for Excel export)
+  // all rows Processed here for Excel export
   const processedAllData = useMemo(
     () =>
       data.map((row) => {

@@ -7,7 +7,7 @@ interface PaginationControlsProps {
   rowsPerPage: number;
   setRowsPerPage: (n: number) => void;
   totalPages: number;
-  totalItems?: number; // ✅ optional if you want to display total count
+  totalItems?: number; 
 }
 
 export default function PaginationControls({
@@ -20,6 +20,8 @@ export default function PaginationControls({
 }: PaginationControlsProps) {
   const startItem = page * rowsPerPage + 1;
   const endItem = Math.min((page + 1) * rowsPerPage, totalItems);
+  
+  // Using Material UI, simply used Pagination function, with 4 buttons
 
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 p-6 bg-gray-900/90 rounded-3xl shadow-[0_0_28px_rgba(118,185,0,0.2)] border border-gray-800 text-gray-200 text-base md:text-lg">
@@ -70,15 +72,15 @@ export default function PaginationControls({
 
       {/* Rows Per Page Selector */}
       <FormControl
-        size="medium" // ✅ bumped from "small"
+        size="medium" 
         sx={{
-          minWidth: 200, // bigger width
+          minWidth: 200,
           "& .MuiOutlinedInput-root": {
             borderRadius: "1rem",
             backgroundColor: "#111",
             color: "#eee",
-            fontSize: "1.1rem", // bigger text
-            height: "48px", // taller input
+            fontSize: "1.1rem", 
+            height: "48px", 
           },
           "& fieldset": { borderColor: "#333" },
           "&:hover fieldset": { borderColor: "#76b900" },

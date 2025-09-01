@@ -38,22 +38,24 @@ export default function FiltersPanel({ data, filters, setFilters, unitMode, setU
   const clearFilter = (col: string) => {
     setFilters((prev) => ({ ...prev, [col]: [] }));
   };
+  
+  // Filter Panel Styling -> Used Material UI components, and built in stuffs
 
   return (
-    // added `relative` so the toggle can be absolutely positioned at the right edge
+
     <div className="relative flex flex-wrap gap-6 p-4 bg-[#0b111b] rounded-xl shadow-lg border border-gray-800">
-      {/* Absolute positioned GPU/Node toggle at the extreme right */}
+      {/* GPU/Node toggle */}
       <div className="absolute right-4 top-4 flex items-center gap-3 select-none z-10">
         <span className={`text-sm ${unitMode === "gpu" ? "text-white" : "text-gray-400"}`}>GPU</span>
 
-        {/* pill toggle */}
+        {}
         <button
           type="button"
           aria-pressed={unitMode === "node"}
           onClick={() => setUnitMode(unitMode === "gpu" ? "node" : "gpu")}
           className="relative w-12 h-6 rounded-full bg-[#2b2f33] flex items-center px-1 cursor-pointer transition-colors"
         >
-          {/* knob */}
+          {}
           <span
             className={`block w-4 h-4 rounded-full bg-white shadow transform transition-transform ${
               unitMode === "node" ? "translate-x-6" : "translate-x-0"
@@ -64,15 +66,15 @@ export default function FiltersPanel({ data, filters, setFilters, unitMode, setU
         <span className={`text-sm ${unitMode === "node" ? "text-white" : "text-gray-400"}`}>Node</span>
       </div>
 
-      {/* (columns) Filters — unchanged */}
+      {/* (columns) Filters*/}
       {columns.map((col) => (
         <div key={col} className="flex flex-col gap-2 min-w-[220px] max-w-[280px]">
-          {/* Proper Label (custom, above the select) */}
+          {}
           <label className="font-semibold text-green-400">
             {headerMapping[col] || col}
           </label>
 
-          {/* Chips */}
+          {}
           {filters[col]?.length > 0 && (
             <Box className="flex flex-wrap gap-2 mb-2">
               {filters[col].map((val) => (
